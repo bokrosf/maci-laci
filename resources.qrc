@@ -1,0 +1,15 @@
+<RCC>
+    <qresource prefix="/levels">
+        <file>level1.lvl</file>
+        <file>level2.lvl</file>
+        <file>level3.lvl</file>
+    </qresource>
+    <qresource prefix="/images">
+        <file>grass.jpg</file>
+        <file>macilaci.jpg</file>
+        <file>picknickbasket.jpg</file>
+        <file>ranger.jpg</file>
+        <file>rock.jpg</file>
+        <file>tree.jpg</file>
+    </qresource>
+</RCC>

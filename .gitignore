@@ -1,0 +1,7 @@
+build/
+sounds/
+
+MaciLaci
+.qtcreator/
+*.pro.user
+
