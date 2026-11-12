@@ -1,5 +1,6 @@
 #include <QPixmap>
 #include <QMessageBox>
+#include <QDir>
 #include "macilaciwidget.h"
 #include "gameoverwidget.h"
 #include "soundsources.h"
@@ -24,22 +25,6 @@ void MaciLaciWidget::resetGameField()
     gameField.clear();
 }
 
-int MaciLaciWidget::levelSelected()
-{
-    if( level1->isChecked() )
-    {
-        return 1;
-    }
-    else if( level2->isChecked() )
-    {
-        return 2;
-    }
-    else
-    {
-        return 3;
-    }
-}
-
 void MaciLaciWidget::initMainLayout()
 {
     mainLayout = new QVBoxLayout(this);
@@ -52,20 +37,19 @@ void MaciLaciWidget::initMainLayout()
 
 void MaciLaciWidget::initLevelSelectorLayout()
 {
-    levelSelectorLayout = new QHBoxLayout;
-    levelSelector = new QGroupBox("Pályák listája:");
-    level1 = new QRadioButton("Pálya 1");
-    level1->setChecked(true);
-    level2 = new QRadioButton("Pálya 2");
-    level3 = new QRadioButton("Pálya 3");
+    interactionPanel->addWidget(new QLabel("Pályák:"));
 
-    levelSelectorLayout->addWidget(level1);
-    levelSelectorLayout->addWidget(level2);
-    levelSelectorLayout->addWidget(level3);
-    levelSelectorLayout->setSizeConstraint(QLayout::SetFixedSize);
+    QDir directory(QDir::currentPath() + "/levels");
+    QStringList levels = directory.entryList(QDir::Files, QDir::Name);
 
-    levelSelector->setLayout(levelSelectorLayout);
+    levelSelector = new QComboBox;
     interactionPanel->addWidget(levelSelector);
+    levelSelector->addItems(levels);
+
+    if (!levels.empty())
+    {
+        levelSelector->setCurrentIndex(0);
+    }
 }
 
 void MaciLaciWidget::initNewGameButton()
@@ -127,8 +111,12 @@ MaciLaciWidget::~MaciLaciWidget()
 //private SLOT-ok:
 void MaciLaciWidget::newGameStarted()
 {
-    //hang lejátszása
-    gameController->newGame(levelSelected());
+    if (levelSelector->currentText().isEmpty())
+    {
+        return;
+    }
+
+    gameController->newGame(levelSelector->currentText());
     slowMoBar->setMaximum(gameController->getMaxSlowMoDuration());
     setFocus();
 }

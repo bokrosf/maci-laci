@@ -6,6 +6,7 @@
 #include <QTimer>
 #include <QKeyEvent>
 #include <QTextStream>
+#include <QString>
 #include "player.h"
 #include "ranger.h"
 #include "mlsoundeffectplayer.h"
@@ -40,7 +41,7 @@ private:
     void moveRanger(Ranger *ranger);
     void checkSuspiciousActivity(Ranger *ranger);
     void pickUpPicknickBasket();
-    void readGameData(int levelID);
+    void readGameData(const QString &levelName);
     void readPlatforms(QTextStream &fileStream);
     void resetGame();
     void playGrassSound();
@@ -52,7 +53,7 @@ public:
     int getPicknickBasketNumber() const;
     int getMaxSlowMoDuration() const;
 
-    void newGame(int levelID);
+    void newGame(const QString &levelName);
     void pauseGame();
     void continueGame();
     void keyPressed(int pressedKey);

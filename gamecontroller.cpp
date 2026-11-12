@@ -3,6 +3,7 @@
 #include <QString>
 #include <QTextStream>
 #include <QDebug>
+#include <QDir>
 #include "gamecontroller.h"
 #include "soundsources.h"
 
@@ -158,9 +159,9 @@ void GameController::pickUpPicknickBasket()
     }
 }
 
-void GameController::readGameData(int levelID)
+void GameController::readGameData(const QString &levelName)
 {
-    QFile levelFile(":/levels/level" + QString::number(levelID) + ".lvl");
+    QFile levelFile(QDir::currentPath() + "/levels/" + levelName);
     levelFile.open(QIODevice::ReadOnly);
     QTextStream fileStream(&levelFile);
 
@@ -255,10 +256,10 @@ int GameController::getMaxSlowMoDuration() const
     return maxSlowMoDuration;
 }
 
-void GameController::newGame(int levelID)
+void GameController::newGame(const QString &levelName)
 {
     resetGame();
-    readGameData(levelID);
+    readGameData(levelName);
 
     player       = new Player(0, 0);
     elapsedTime  = new QTime(0, 0, 0, 0);
